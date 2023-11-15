@@ -1,12 +1,15 @@
 using FiapStore.Entidade;
 using FiapStore.Interface;
+using FiapStore.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
 
 var app = builder.Build();
 
@@ -42,14 +45,14 @@ app.MapPost("/usuario", (Usuario usuario, IUsuarioRepository usuarioRepository) 
 });
 
 //Endpoint PUT
-app.MapPost("/usuario", (Usuario usuario, IUsuarioRepository usuarioRepository) =>
+app.MapPut("/usuario", (Usuario usuario, IUsuarioRepository usuarioRepository) =>
 {
     usuarioRepository.AlterarUsuario(usuario);
 
 });
 
 //Endpoint DELETE
-app.MapGet("/usuario/{id}", (int id, IUsuarioRepository usuarioRepository) =>
+app.MapDelete("/usuario/{id}", (int id, IUsuarioRepository usuarioRepository) =>
 {
     usuarioRepository.DeletarUsuario(id);
 
